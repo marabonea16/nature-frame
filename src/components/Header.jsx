@@ -12,7 +12,7 @@ export default function Header() {
     <div className='bg-white border-b shadow-sm sticky top-0 z-50'>
         <header className="flex justify-between items-center px- max-w-6xl mx-auto">
             <div>
-                <img src="https://1drv.ms/i/c/9226078bd30bb073/IQQKfIdYebYnR4tExpZZQklXAQMcad_nUZt3RiUtLFxuBsI?width=512&height=512" alt="logo" className="h-40 cursor-pointer" onClick={()=>navigate("/")}/>
+                <img src="https://1drv.ms/i/c/9226078bd30bb073/IQTwMinQFfmXTb0SfFIZcu0fAcOU-t2x6NIHL5vOTl2s3W4?width=512&height=512" alt="logo" className="h-40 cursor-pointer" onClick={()=>navigate("/")}/>
             </div>
             <div>
                 <ul className='flex space-x-10'>
