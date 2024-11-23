@@ -41,7 +41,7 @@ export default function ForgotPassword() {
                 <Link to="/sign-in"
                 className="text-blue-600 
                 hover:text-blue-800
-                transition duration-200 ease-in-out">Sign in instead</Link>
+                transition duration-200 ease-in-out">Sign in instead?</Link>
               </p>
             </div>
             <button className="w-full bg-green-700 text-white 

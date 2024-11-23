@@ -26,7 +26,7 @@ export default function SignUp() {
           />
         </div>
         <div className='w-full md:w-[67%] lg:w-[40%] lg:ml-20 '>
-          <form>
+          <form >
           <input 
               type="text" 
               id="name" 
