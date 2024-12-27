@@ -5,6 +5,7 @@ import OAuth from '../components/OAuth';
 import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import image from '../assets/images/natureframes.jpeg';
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
@@ -41,8 +42,8 @@ export default function SignIn() {
       <h1 className='text-3xl text-center mt-6 font-bold'>Sign In</h1>
       <div className='flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto'>
         <div className='md:w-[67%] lg:w-[50%] mb-12 md:mb-6 mt-4'>
-          <img src="https://1drv.ms/i/c/9226078bd30bb073/IQTwMinQFfmXTb0SfFIZcu0fAcOU-t2x6NIHL5vOTl2s3W4?width=512&height=512" alt="key" 
-          className='w-full rounded-2xl'
+          <img src={image} alt="key" 
+          className='w-full '
           />
         </div>
         <div className='w-full md:w-[67%] lg:w-[40%] lg:ml-20 '>

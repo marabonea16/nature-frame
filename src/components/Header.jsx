@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import image from '../assets/images/logo.jpeg';
+
 export default function Header() {
     const [pageState, setPageState] = useState("Sign in")
     const location = useLocation();
@@ -28,8 +30,8 @@ export default function Header() {
     return (
         <div className='bg-white border-b shadow-sm sticky top-0 z-40'>
             <header className="flex justify-between items-center px-4 max-w-6xl mx-auto">
-                <div className='mt-[-20px]'>
-                    <img src="https://1drv.ms/i/c/9226078bd30bb073/IQTwMinQFfmXTb0SfFIZcu0fAcOU-t2x6NIHL5vOTl2s3W4?width=512&height=512" alt="logo" className="h-40 cursor-pointer" onClick={() => navigate("/")}/>
+                <div className='mt-[-10px]'>
+                    <img src={image} onClick={() => navigate("/")} className='h-40'/>
                 </div>
                 <div>
                     <ul key={currentPath} className='flex space-x-4 md:space-x-10'>
