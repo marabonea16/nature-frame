@@ -20,6 +20,7 @@ export default function Product() {
          fetchProduct();
 
     }, [params.productId]);
+    Console.log(product);
     if(loading) {
         return <Spinner />
     }
