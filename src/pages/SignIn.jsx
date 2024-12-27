@@ -21,20 +21,20 @@ export default function SignIn() {
   }
   async function onSubmit(e){
     e.preventDefault()
-      try{
-        const auth = getAuth();
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        if(userCredential.user){
-          toast.success("You have successfully signed in.");
-          navigate("/");
-        }
-      } catch(error) {
-          if(error.code === "auth/user-not-found"){
-                toast.error("The email or password are  invalid."); 
-              } else{
-                toast.error("Something went wrong. Please try again.");
-              }
+    try{
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      if(userCredential.user){
+        toast.success("You have successfully signed in.");
+        navigate("/");
       }
+    } catch(error) {
+        if(error.code === "auth/user-not-found"){
+          toast.error("The email or password are  invalid."); 
+        } else{
+          toast.error("Something went wrong. Please try again.");
+        }
+    }
   }
   return (
     <section>

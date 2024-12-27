@@ -1,10 +1,30 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import OAuth from '../components/OAuth';
+import { toast } from 'react-toastify';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../firebase.js";
 export default function ForgotPassword() {
   const [email, setEmail] = useState('')
   function onChange(e){
     setEmail(e.target.value)
+  }
+  async function onSubmit(e){
+    e.preventDefault()
+    try {
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        toast.error("The email address is not registered.");
+        return;
+      }
+      const auth = getAuth();
+      await sendPasswordResetEmail(auth, email);
+      toast.success("Password reset email sent. Please check your inbox.")
+    } catch (error) {
+        toast.error("Something went wrong. Please try again.")
+    }
   }
   return (
     <section>
@@ -16,8 +36,7 @@ export default function ForgotPassword() {
           />
         </div>
         <div className='w-full md:w-[67%] lg:w-[40%] lg:ml-20 '>
-          <form>
-          
+          <form onSubmit={onSubmit}>
             <input 
               type="email" 
               id="email" 
