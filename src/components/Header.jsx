@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 export default function Header() {
-    const location = useLocation()
-    const navigate = useNavigate()
+    const [pageState, setPageState] = useState("Sign in")
+    const location = useLocation();
+    const navigate = useNavigate();
+    const auth = getAuth();
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setPageState("Profile")
+            } else {
+                setPageState("Sign in")
+            }
+        })
+    }, [auth])
     const [currentPath, setCurrentPath] = useState(location.pathname)
 
     useEffect(() => {
@@ -24,7 +35,9 @@ export default function Header() {
                     <ul key={currentPath} className='flex space-x-4 md:space-x-10'>
                         <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${pathMatchRoute("/") ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} onClick={() => navigate("/")}>Home</li>
                         <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${pathMatchRoute("/shop") ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} onClick={() => navigate("/shop")}>Shop</li>
-                        <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${pathMatchRoute("/sign-in") ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} onClick={() => navigate("/sign-in")}>Sign In</li>
+                        <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${(pathMatchRoute("/sign-in") || pathMatchRoute("/profile"))  ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} 
+                            onClick={() => navigate("/profile")}
+                            >{pageState}</li>
                     </ul>
                 </div>
             </header>
