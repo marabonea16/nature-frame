@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import image from '../assets/images/logo.jpeg';
 
-export default function Header() {
+export default function HeaderAdmin() {
     const [pageState, setPageState] = useState("Sign in")
     const location = useLocation();
     const navigate = useNavigate();
@@ -35,8 +35,8 @@ export default function Header() {
                 </div>
                 <div>
                     <ul key={currentPath} className='flex space-x-4 md:space-x-10'>
-                        <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${pathMatchRoute("/") ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} onClick={() => navigate("/")}>Home</li>
-                        <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${pathMatchRoute("/shop") ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} onClick={() => navigate("/shop")}>Shop</li>
+                        <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${pathMatchRoute("/") ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} onClick={() => navigate("/admin-dashboard")}>Admin Dashboard</li>
+                        <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${pathMatchRoute("/shop") ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} onClick={() => navigate("/products")}>Products</li>
                         <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${(pathMatchRoute("/sign-in") || pathMatchRoute("/profile"))  ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} 
                             onClick={() => navigate("/profile")}
                             >{pageState}</li>

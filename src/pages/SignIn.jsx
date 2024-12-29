@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { AiFillEyeInvisible, AiFillEye} from "react-icons/ai";
 import { Link } from 'react-router-dom';
 import OAuth from '../components/OAuth';
@@ -6,6 +6,10 @@ import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import image from '../assets/images/natureframes.jpeg';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+import { UserContext } from '../context/UserContext'; 
+
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
@@ -14,6 +18,7 @@ export default function SignIn() {
   })
   const {email, password} = formData;
   const navigate = useNavigate();
+  const { setIsAdmin } = useContext(UserContext);
   function onChange(e){
     setFormData((prevState)=>({
       ...prevState,
@@ -25,9 +30,20 @@ export default function SignIn() {
     try{
       const auth = getAuth();
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      if(userCredential.user){
-        toast.success("You have successfully signed in.");
-        navigate("/");
+      const user = userCredential.user;
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        if (userData.admin) {
+          toast.success("You have successfully signed in.");
+          setIsAdmin(true);
+          navigate("/admin-dashboard");
+        } else {
+          toast.success("You have successfully signed in.");
+          setIsAdmin(false);
+          navigate("/");
+        }
       }
     } catch(error) {
         if(error.code === "auth/user-not-found"){
