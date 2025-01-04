@@ -12,6 +12,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import Shop from './pages/Shop';
 import AdminDashboard from './pages/AdminDashboard';
 import Products from './pages/Products';
+import Product from './pages/Product';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import AddProduct from './pages/AddProduct';
@@ -64,6 +65,7 @@ function Main() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/products/:productId" element={<Product />} />
         <Route path="/admin-dashboard" element={<AdminRoute />}>
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
         </Route>

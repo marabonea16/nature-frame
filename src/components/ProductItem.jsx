@@ -4,20 +4,23 @@ import { MdEdit } from 'react-icons/md';
 import image from '../assets/images/unknown.jpeg';
 
 export default function ProductItem({ product, id, onEdit, onDelete }) {
+  const sortedImgUrls = product?.imgUrls?.slice().sort() || [];
+
   return (
     <li className='relative bg-white flex flex-col justify-between items-center
     shadow-md hover:shadow-xl rounded-md overflow-hidden transition-shadow
-    duration-150 ease-in-out m-[10px]'>
+    duration-150 ease-in-out w-full'>
       <Link className='contents' to={`/products/${id}`}>
         <img
-          className="h-[470px] object-cover hover:scale-105 
+          className="w-full max-h-[300px] object-contain hover:scale-105 
           transition-scale duration-200 ease-in"
           loading='lazy'
-          src={product.imgUrls && product.imgUrls.length > 0 ? product.imgUrls[0] : image}
+          src={sortedImgUrls[0] || image}
+          alt={product?.name || 'Product Image'}
         />
         <div className='p-[10px] w-full'>
           <p className='text-xl font-semibold m-0 truncate '>
-            {product.name || 'Unknown Product'}
+            {product?.name || 'Unknown Product'}
           </p>
           <p className='text-[#195e24] mt-2 font-semibold'>
             {product?.price
@@ -25,7 +28,7 @@ export default function ProductItem({ product, id, onEdit, onDelete }) {
               : 'N/A'}
           </p>
           <p className='text-sm m-0 text-gray-600'>
-            {product.description || 'Unknown Description'}
+            {product?.description || 'Unknown Description'}
           </p>
         </div>
       </Link>
