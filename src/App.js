@@ -15,7 +15,7 @@ import Products from './pages/Products';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import AddProduct from './pages/AddProduct';
-import EditProducts from './pages/EditProducts';
+import EditProduct from './pages/EditProduct';
 import { UserProvider, UserContext } from './context/UserContext';
 
 function App() {
@@ -73,8 +73,8 @@ function Main() {
         <Route path="/add-product" element={<AdminRoute />}>
           <Route path="/add-product" element={<AddProduct />} />
         </Route>
-        <Route path="/edit-products" element={<AdminRoute />}>
-          <Route path="/edit-products" element={<EditProducts />} />
+        <Route path="/edit-product" element={<AdminRoute />}>
+          <Route path="/edit-product/:productId" element={<EditProduct />} />
         </Route>
       </Routes>
     </>

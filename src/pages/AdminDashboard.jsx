@@ -24,7 +24,7 @@ export default function AdminDashboard() {
         text-white uppercase text-lg font-bold rounded shadow-md
         hover:bg-green-800 transition duration-150 ease-in-out
         hover:shadow-lg active:bg-green-900 overflow-hidden">
-          <Link to="/edit-products" className='flex flex-col justify-center items-center w-full h-full'>
+          <Link to="/products" className='flex flex-col justify-center items-center w-full h-full'>
             <img src={image2} alt="Edit Products" className='absolute inset-0 w-full h-full object-cover opacity-50' />
             <MdOutlineProductionQuantityLimits className='text-5xl mb-2 relative z-10' />
             <span className='relative z-10 bg-black bg-opacity-50 px-2 py-1 rounded'>Edit Products</span>
