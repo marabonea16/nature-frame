@@ -38,12 +38,12 @@ export default function Products() {
     navigate(`/edit-product/${productId}`);
   }
   return (
-    <main className='max-w-xl mx-auto px-2 py-4'>
+    <main className='max-w-xl mx-auto px-2 py-4 '>
       <h1 className='text-3xl text-center mt-6 font-bold'>Products</h1>
       <div>
         {!loading && products.length >0  && (
             <>
-            <ul>
+            <ul className="sm:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                 {products.map((product)=> (
                     <ProductItem 
                         key={product.id} 
