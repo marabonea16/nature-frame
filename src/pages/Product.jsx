@@ -1,5 +1,5 @@
 import { doc, getDoc } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { db } from '../firebase';
 import Spinner from '../components/Spinner';
@@ -16,8 +16,12 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 import 'swiper/css/autoplay';
 import { FaShare } from "react-icons/fa";
+import { UserContext } from '../context/UserContext';
+
+
 export default function Product() {
   const params = useParams();
+  const { isAdmin } = useContext(UserContext);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [shareLinkCopied, setShareLinkCopied] = useState(false);
@@ -32,8 +36,11 @@ export default function Product() {
     }
     fetchProduct();
   }, [params.productId]);
-  console.log(product)
-  console.log("yes")
+  
+  const handleAddToCart = () => {
+    // Add to cart logic here
+  };
+
   if (loading) {
     return <Spinner />;
   }
@@ -41,6 +48,7 @@ export default function Product() {
   return (
     <main>
       <Swiper
+        className="max-w-4xl mx-auto my-6"
         modules={[EffectFade, Navigation, Pagination, Autoplay]}
         effect="fade"
         autoplay={{ delay: 3000 }}
@@ -50,7 +58,7 @@ export default function Product() {
         {product && product.imgUrls.map((url, index) => (
           <SwiperSlide key={index}>
             <div
-              className="relative overflow-hidden h-[370px] w-full"
+              className="object-contain h-[500px] w-full mx-auto"
               style={{
                 background: `url(${product.imgUrls[index]}) center no-repeat`,
                 backgroundSize: "cover",
@@ -77,6 +85,26 @@ export default function Product() {
         Link Copied
       </p>
         )}
+      <div className='p-4 max-w-6xl lg:mx-auto rounded-lg 
+      shadow-lg bg-white '>
+        <div className='w-full h-[200px] lg-[400px]'>
+          <p className='text-2xl font-bold mb-3 text-green-900
+          '>
+            {product.name} - {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} RON
+          </p>
+          <p className="mt-3 mb-3">          
+            {product.description}
+          </p>
+          {!isAdmin && (
+            <button
+              className='bg-green-700 text-white px-4 py-2 rounded'
+              onClick={handleAddToCart}
+            >
+              Add to Cart
+            </button>
+          )}
+        </div>
+      </div>
     </main>
   );
 }

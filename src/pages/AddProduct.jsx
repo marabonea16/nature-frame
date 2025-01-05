@@ -14,12 +14,21 @@ export default function AddProduct() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
+    offer: false,
     price: 200,
+    salePrice: 0,
     description: '',
     images: {},
   });
-  
+  const { name, offer, price, salePrice, description } = formData;
   function onChange(e) {
+    let boolean = null;
+    if (e.target.value === "true") {
+      boolean = true;
+    }
+    if (e.target.value === "false") {
+      boolean = false;
+    }
     if(e.target.files) {
       setFormData((prevState)=>({
         ...prevState,
@@ -29,7 +38,7 @@ export default function AddProduct() {
     if(!e.target.files) {
       setFormData((prevState)=>({
         ...prevState,
-        [e.target.id]: e.target.value
+        [e.target.id]: boolean ?? e.target.value
       }))
     }
   }
@@ -37,6 +46,11 @@ export default function AddProduct() {
     e.preventDefault();
     setLoading(true);
     const { images, ...restFormData} = formData;
+    if (+salePrice >= +price) {
+      setLoading(false);
+      toast.error("Discounted price needs to be less than regular price");
+      return;
+    }
     if(images.length > 5) {
       setLoading(false);
       toast.error('You can only upload up to 5 images');
@@ -125,6 +139,49 @@ export default function AddProduct() {
         </div>
         <div className='mb-4'>
           <p className='text-xl mt-6 font-semibold'>
+            Description
+          </p>
+          <input
+            type='text'
+            id='description'
+            value={formData.description}
+            onChange={onChange}
+            placeholder='Product Description'
+            maxLength={500}
+            minLength={20}
+            required
+            className='w-full px-4 py-2 text-xl  text-gray-700 bg-white border 
+            border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700
+            focus:bg-white focus:ring-green-700 focus:border-green-700 mb-6'
+          />
+        </div>
+        <p className="text-lg font-semibold">Offer</p>
+        <div className="mb-4 flex">
+          <button
+            type="button"
+            id="offer"
+            value={true}
+            onClick={onChange}
+            className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
+              !offer ? "bg-white text-black" : "bg-green-800 text-white"
+            }`}
+          >
+            yes
+          </button>
+          <button
+            type="button"
+            id="offer"
+            value={false}
+            onClick={onChange}
+            className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
+              offer ? "bg-white text-black" : "bg-green-800 text-white"
+            }`}
+          >
+            no
+          </button>
+        </div>
+        <div className='mb-4 '>
+          <p className='text-xl mt-6 font-semibold'>
             Price
           </p>
           <input
@@ -141,24 +198,27 @@ export default function AddProduct() {
             focus:bg-white focus:ring-green-700 focus:border-green-700 mb-6'
           />
         </div>
+        {offer && (
         <div className='mb-4'>
           <p className='text-xl mt-6 font-semibold'>
-            Description
+            Sale Price
           </p>
           <input
-            type='text'
-            id='description'
-            value={formData.description}
+            type='number'
+            id='salePrice'
+            value={formData.salePrice}
             onChange={onChange}
-            placeholder='Product Description'
-            maxLength={100}
-            minLength={20}
-            required
+            placeholder='Sale Price'
+            min="100"
+            max="2000"
+            required = {offer}
             className='w-full px-4 py-2 text-xl  text-gray-700 bg-white border 
             border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700
             focus:bg-white focus:ring-green-700 focus:border-green-700 mb-6'
           />
         </div>
+        )}
+        
         <div className='mb-4'>
           <p className='text-xl mt-6 font-semibold'>
             Images

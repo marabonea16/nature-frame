@@ -23,9 +23,18 @@ export default function ProductItem({ product, id, onEdit, onDelete }) {
             {product?.name || 'Unknown Product'}
           </p>
           <p className='text-[#195e24] mt-2 font-semibold'>
-            {product?.price
-              ? `${product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} RON`
-              : 'N/A'}
+          {product.offer ? (
+              <>
+                <span className='line-through text-red-500'>
+                  {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} RON
+                </span>
+                <span className='ml-2'>
+                  {product.salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} RON
+                </span>
+              </>
+            ) : (
+              `${product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} RON`
+            )}
           </p>
           <p className='text-sm m-0 text-gray-600'>
             {product?.description || 'Unknown Description'}

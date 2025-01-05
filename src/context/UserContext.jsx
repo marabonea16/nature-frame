@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export const UserContext = createContext();
 
@@ -7,29 +8,22 @@ export const UserProvider = ({ children }) => {
   const [checkingStatus, setCheckingStatus] = useState(true);
 
   useEffect(() => {
-    const checkUserStatus = async () => {
-      const user = await fakeAuthCheck();
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setIsAdmin(user.role === 'admin');
+        setIsAdmin(isAdmin);
+      } else {
+        setIsAdmin(false);
       }
       setCheckingStatus(false);
-    };
+    });
 
-    checkUserStatus();
+    return () => unsubscribe();
   }, []);
 
   return (
-    <UserContext.Provider value={{ isAdmin, checkingStatus }}>
+    <UserContext.Provider value={{ isAdmin, setIsAdmin, checkingStatus, setCheckingStatus }}>
       {children}
     </UserContext.Provider>
   );
-};
-
-// Simulate an authentication check function
-const fakeAuthCheck = async () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ role: 'admin' }); // Change this to 'user' for normal users
-    }, 1000);
-  });
 };

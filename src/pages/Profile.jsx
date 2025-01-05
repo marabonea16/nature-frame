@@ -9,9 +9,12 @@ export default function Profile() {
     email: auth.currentUser.email,
   });
   const {name, email} = formData;
-  function onLogout(){
-    auth.signOut();
-    navigate("/");
+  function onLogout() {
+    auth.signOut().then(() => {
+      navigate('/');
+    }).catch((error) => {
+      console.error('Error signing out: ', error);
+    });
   }
   return (
     <>

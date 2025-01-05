@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,6 +21,9 @@ import EditProduct from './pages/EditProduct';
 import { UserProvider, UserContext } from './context/UserContext';
 
 function App() {
+
+
+
   return (
     <UserProvider>
       <Router>
@@ -41,9 +45,10 @@ function App() {
 }
 
 function Main() {
-  const { isAdmin, checkingStatus } = useContext(UserContext);
+  const { isAdmin, setIsAdmin, checkingStatus, setCheckingStatus } = useContext(UserContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const auth = getAuth();
 
   useEffect(() => {
     if (!checkingStatus) {
