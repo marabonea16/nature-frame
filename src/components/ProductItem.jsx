@@ -10,16 +10,15 @@ export default function ProductItem({ product, id, onEdit, onDelete }) {
     <li className='relative bg-white flex flex-col justify-between items-center
     shadow-md hover:shadow-xl rounded-md overflow-hidden transition-shadow
     duration-150 ease-in-out w-full'>
-      <Link className='contents' to={`/products/${id}`}>
+      <Link className='content' to={`/products/${id}`}>
         <img
           className="w-full max-h-[300px] object-contain hover:scale-105 
           transition-scale duration-200 ease-in"
           loading='lazy'
           src={sortedImgUrls[0] || image}
-          alt={product?.name || 'Product Image'}
         />
         <div className='p-[10px] w-full'>
-          <p className='text-xl font-semibold m-0 truncate '>
+          <p className='text-xl font-semibold m-0 truncate'>
             {product?.name || 'Unknown Product'}
           </p>
           <p className='text-[#195e24] mt-2 font-semibold'>

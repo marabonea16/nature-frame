@@ -18,7 +18,11 @@ import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import OrderConfirmation from './pages/OrderConfirmation';
 import { UserProvider, UserContext } from './context/UserContext';
+import { CartProvider, CartContext } from './context/CartContext';
 
 function App() {
 
@@ -26,6 +30,7 @@ function App() {
 
   return (
     <UserProvider>
+     <CartProvider>
       <Router>
         <Main />
       </Router>
@@ -40,6 +45,7 @@ function App() {
         draggable
         pauseOnHover
       />
+     </CartProvider>
     </UserProvider>
   );
 }
@@ -70,6 +76,9 @@ function Main() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order-confirmation" element={<OrderConfirmation />} />
         <Route path="/products/:productId" element={<Product />} />
         <Route path="/admin-dashboard" element={<AdminRoute />}>
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
