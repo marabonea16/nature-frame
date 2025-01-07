@@ -43,7 +43,7 @@ export default function Product() {
     fetchProduct();
   }, [params.productId]);
   
-  const handleAddToCart = async () => {
+  async function handleAddToCart () {
     if (!user) {
       toast.error("Please sign in first or create an account");
       navigate("/sign-in");

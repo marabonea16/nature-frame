@@ -9,7 +9,7 @@ export default function ProductItem({ product, id, onEdit, onDelete }) {
   return (
     <li className='relative bg-white flex flex-col justify-between items-center
     shadow-md hover:shadow-xl rounded-md overflow-hidden transition-shadow
-    duration-150 ease-in-out w-full'>
+    duration-150 ease-in-out '>
       <Link className='content' to={`/products/${id}`}>
         <img
           className="w-full max-h-[300px] object-contain hover:scale-105 

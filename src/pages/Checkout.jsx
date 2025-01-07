@@ -1,26 +1,70 @@
 import React, { useContext, useState } from 'react';
 import { CartContext } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+import { getAuth } from 'firebase/auth';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 export default function Checkout() {
-  const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
+  const { cartItems, clearCart } = useContext(CartContext);
   const [shippingInfo, setShippingInfo] = useState({
     name: '',
+    email: '',
+    phone: '',
     address: '',
     city: '',
     postalCode: '',
     country: '',
   });
   const navigate = useNavigate();
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   const handleShippingChange = (e) => {
     const { name, value } = e.target;
     setShippingInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    const orderDetails = cartItems.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.offer ? item.salePrice : item.price,
+      }));
+
+      try {
+        await addDoc(collection(db, 'orders'), {
+          userEmail: user.email,
+          shippingInfo,
+          orderDetails,
+          totalPrice: totalPrice.toFixed(2),
+          timestamp: new Date(),
+        });
+      } catch (error) {
+        console.error('Error adding order to Firestore:', error);
+      }
+
+      const functions = getFunctions();
+      const sendOrderConfirmation = httpsCallable(functions, 'sendOrderConfirmation');
+      try {
+        await sendOrderConfirmation({
+          email: shippingInfo.email,
+          name: shippingInfo.name,
+          phone: shippingInfo.phone,
+          address: shippingInfo.address,
+          city: shippingInfo.city,
+          postalCode: shippingInfo.postalCode,
+          country: shippingInfo.country,
+          totalPrice: totalPrice.toFixed(2),
+          orderDetails: JSON.stringify(orderDetails, null, 2),
+        });
+        console.log('Email sent successfully');
+      } catch (error) {
+        console.error('Failed to send email:', error);
+      }
+  
+    await clearCart();
     navigate('/order-confirmation');
   };
 
@@ -62,6 +106,34 @@ export default function Checkout() {
             name="name"
             id="name"
             value={shippingInfo.name}
+            onChange={handleShippingChange}
+            className='w-full px-4 py-2 text-xl  text-gray-700 bg-white border 
+            border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700
+            focus:bg-white focus:ring-green-700 focus:border-green-700 mb-6'
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <p className="text-lg mt-6 font-semibold">Email</p>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            value={shippingInfo.email}
+            onChange={handleShippingChange}
+            className='w-full px-4 py-2 text-xl  text-gray-700 bg-white border 
+            border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700
+            focus:bg-white focus:ring-green-700 focus:border-green-700 mb-6'
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <p className="text-lg mt-6 font-semibold">Phone</p>
+          <input
+            type="text"
+            name="phone"
+            id="phone"
+            value={shippingInfo.phone}
             onChange={handleShippingChange}
             className='w-full px-4 py-2 text-xl  text-gray-700 bg-white border 
             border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700

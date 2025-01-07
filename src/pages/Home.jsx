@@ -48,7 +48,6 @@ export default function Home() {
     }
     fetchSaleProducts();
   }, []);
-  console.log(saleProducts);
   return (
     <div>
       <Slider/>

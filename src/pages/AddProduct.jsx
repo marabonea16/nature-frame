@@ -1,18 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getAuth } from 'firebase/auth';
 import { v4 as uuidv4 } from 'uuid';  
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, query, orderBy, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export default function AddProduct() {
   const auth = getAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
+    ID: 1,
     name: '',
     offer: false,
     price: 200,
@@ -20,7 +22,32 @@ export default function AddProduct() {
     description: '',
     images: {},
   });
-  const { name, offer, price, salePrice, description } = formData;
+  useEffect(() => {
+    async function fetchProducts() {
+        const productRef = collection(db, 'products');
+        const q = query(productRef, orderBy('timestamp'));
+        const snapshot = await getDocs(q);
+        if(snapshot.size === 0) {
+          console.log("first one")
+            setFormData((prevState)=>({
+                ...prevState,
+                ID: 1
+                
+            }))
+        } else {
+            let lastId = 0;
+            snapshot.forEach((doc) => {
+                lastId = doc.data().ID;
+            });
+            setFormData((prevState)=>({
+                ...prevState,
+                ID: lastId + 1
+            }))
+        }
+    }
+    fetchProducts();
+  }, [])
+  const { price, salePrice, offer } = formData;
   function onChange(e) {
     let boolean = null;
     if (e.target.value === "true") {
@@ -119,6 +146,20 @@ export default function AddProduct() {
     <main className='max-w-xl mx-auto px-2 py-4'>
       <h1 className='text-3xl text-center mt-6 font-bold'>Add Product</h1>
       <form onSubmit={onSubmit} className='mt-6 border-black border-2 px-10 py-4 rounded-sm'>
+      <div className='mb-4'>
+          <p className='text-xl mt-6 font-semibold'>
+            ID
+          </p>
+          <input
+            type='number'
+            id='id'
+            value={formData.ID}
+            readOnly
+            className='w-full px-4 py-2 text-xl  text-gray-700 bg-white border 
+            border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700
+            focus:bg-white focus:ring-green-700 focus:border-green-700 mb-6'
+          />
+        </div>
         <div className='mb-4'>
           <p className='text-xl mt-6 font-semibold'>
             Name

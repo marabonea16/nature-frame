@@ -14,11 +14,15 @@ export default function EditProduct() {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState(null);
   const [formData, setFormData] = useState({
+    ID: 1,
     name: '',
+    offer: false,
     price: 200,
+    salePrice: 0,
     description: '',
     images: {},
   });
+  const { offer } = formData;
   const params = useParams();
   useEffect(()=>{
     setLoading(true);
@@ -38,6 +42,13 @@ export default function EditProduct() {
     fetchProducts();
   },[])
   function onChange(e) {
+    let boolean = null;
+    if (e.target.value === "true") {
+      boolean = true;
+    }
+    if (e.target.value === "false") {
+      boolean = false;
+    }
     if(e.target.files) {
       setFormData((prevState)=>({
         ...prevState,
@@ -47,7 +58,7 @@ export default function EditProduct() {
     if(!e.target.files) {
       setFormData((prevState)=>({
         ...prevState,
-        [e.target.id]: e.target.value
+        [e.target.id]: boolean ?? e.target.value
       }))
     }
   }
@@ -124,6 +135,20 @@ export default function EditProduct() {
     <main className='max-w-xl mx-auto px-2 py-4'>
       <h1 className='text-3xl text-center mt-6 font-bold'>Edit Product</h1>
       <form onSubmit={onSubmit} className='mt-6 border-black border-2 px-10 py-4 rounded-sm'>
+      <div className='mb-4'>
+          <p className='text-xl mt-6 font-semibold'>
+            ID
+          </p>
+          <input
+            type='number'
+            id='id'
+            value={formData.ID}
+            readOnly
+            className='w-full px-4 py-2 text-xl  text-gray-700 bg-white border 
+            border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700
+            focus:bg-white focus:ring-green-700 focus:border-green-700 mb-6'
+          />
+        </div>
         <div className='mb-4'>
           <p className='text-xl mt-6 font-semibold'>
             Name
@@ -136,24 +161,6 @@ export default function EditProduct() {
             placeholder='Product Name'
             maxLength={32}
             minLength={10}
-            required
-            className='w-full px-4 py-2 text-xl  text-gray-700 bg-white border 
-            border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700
-            focus:bg-white focus:ring-green-700 focus:border-green-700 mb-6'
-          />
-        </div>
-        <div className='mb-4'>
-          <p className='text-xl mt-6 font-semibold'>
-            Price
-          </p>
-          <input
-            type='number'
-            id='price'
-            value={formData.price}
-            onChange={onChange}
-            placeholder='Product Price'
-            min="100"
-            max="2000"
             required
             className='w-full px-4 py-2 text-xl  text-gray-700 bg-white border 
             border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700
@@ -178,6 +185,69 @@ export default function EditProduct() {
             focus:bg-white focus:ring-green-700 focus:border-green-700 mb-6'
           />
         </div>
+        <p className="text-lg font-semibold">Offer</p>
+        <div className="mb-4 flex">
+          <button
+            type="button"
+            id="offer"
+            value={formData.offer}
+            onClick={onChange}
+            className={`mr-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
+              !offer ? "bg-white text-black" : "bg-green-800 text-white"
+            }`}
+          >
+            yes
+          </button>
+          <button
+            type="button"
+            id="offer"
+            value={formData.offer}
+            onClick={onChange}
+            className={`ml-3 px-7 py-3 font-medium text-sm uppercase shadow-md rounded hover:shadow-lg focus:shadow-lg active:shadow-lg transition duration-150 ease-in-out w-full ${
+              offer ? "bg-white text-black" : "bg-green-800 text-white"
+            }`}
+          >
+            no
+          </button>
+        </div>
+        <div className='mb-4'>
+          <p className='text-xl mt-6 font-semibold'>
+            Price
+          </p>
+          <input
+            type='number'
+            id='price'
+            value={formData.price}
+            onChange={onChange}
+            placeholder='Product Price'
+            min="100"
+            max="2000"
+            required
+            className='w-full px-4 py-2 text-xl  text-gray-700 bg-white border 
+            border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700
+            focus:bg-white focus:ring-green-700 focus:border-green-700 mb-6'
+          />
+        </div>
+        {offer && (
+        <div className='mb-4'>
+          <p className='text-xl mt-6 font-semibold'>
+            Sale Price
+          </p>
+          <input
+            type='number'
+            id='salePrice'
+            value={formData.salePrice}
+            onChange={onChange}
+            placeholder='Sale Price'
+            min="100"
+            max="2000"
+            required = {offer}
+            className='w-full px-4 py-2 text-xl  text-gray-700 bg-white border 
+            border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700
+            focus:bg-white focus:ring-green-700 focus:border-green-700 mb-6'
+          />
+        </div>
+        )}
         <div className='mb-4'>
           <p className='text-xl mt-6 font-semibold'>
             Images
