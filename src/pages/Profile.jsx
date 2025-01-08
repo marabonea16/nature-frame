@@ -1,19 +1,20 @@
 import { getAuth } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+import { UserContext } from '../context/UserContext';
 export default function Profile() {
   const auth = getAuth();
   const user = auth.currentUser;
+  const { isAdmin, checkingStatus } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
     email: auth.currentUser.email,
-    isAdmin: user.admin,
   });
-  const {name, email, isAdmin} = formData;
+  const {name, email} = formData;
   function onLogout() {
     auth.signOut().then(() => {
       navigate('/');
