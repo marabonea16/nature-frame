@@ -51,9 +51,7 @@ export default function Profile() {
 
               <div className="w-full flex justify-center px-4 py-2 text-xl mb-6 border-b-2
               text-green-800 bg-white rounded transition ease-in-out font-semibold"> {email}</div>
-              <p>
-                {isAdmin ? 'Admin' : 'User'}
-              </p>
+             
               <div className='flex justify-end whitespace-nowrap text-sm sm:text-lg'>
                 <p onClick={onLogout} className='text-red-600 hover:text-red-700 transition duration-200 ease-in-out cursor-pointer'>
                   Sign out
