@@ -23,7 +23,7 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    async function fetchUserData() {
       if (auth.currentUser) {
         const user = auth.currentUser;
         const userRef = collection(db, 'users');
@@ -31,10 +31,11 @@ export default function Profile() {
         if (!userDoc.empty) {
           const userData = userDoc.docs[0].data();
           setIsAdmin(userData.admin);
+          console.log(userData.admin);
         }
       }
     };
-    const fetchOrders = async () => {
+    async function fetchOrders () {
       if (auth.currentUser) {
         const user = auth.currentUser;
         const ordersRef = collection(db, 'orders');
@@ -47,6 +48,7 @@ export default function Profile() {
     fetchUserData();
     fetchOrders();
   }, [auth]);
+  
   return (
     <>
       <section className='max-w-6xl mx-auto flex justify-center items-center flex-col'>
