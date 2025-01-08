@@ -54,6 +54,8 @@ export default function Profile() {
                 </p>
               </div>
           </form>
+      {auth.currentUser.admin === false && (
+        <>
           <h1 className="text-xl text-center font-bold mt-10 mb-6">Order History</h1>
       {orders.length === 0 ? (
         <p>No orders found.</p>
@@ -76,8 +78,9 @@ export default function Profile() {
           ))}
         </div>
       )}
-        </div>
-
+        </>
+      )}
+      </div>
       </section>
     </>
   )
