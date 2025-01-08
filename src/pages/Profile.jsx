@@ -5,6 +5,8 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 export default function Profile() {
   const auth = getAuth();
+  const user = auth.currentUser;
+  const [isAdmin, setIsAdmin] = useState(false);
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -19,7 +21,19 @@ export default function Profile() {
       console.error('Error signing out: ', error);
     });
   }
+
   useEffect(() => {
+    const fetchUserData = async () => {
+      if (auth.currentUser) {
+        const user = auth.currentUser;
+        const userRef = collection(db, 'users');
+        const userDoc = await getDocs(query(userRef, where('uid', '==', user.uid)));
+        if (!userDoc.empty) {
+          const userData = userDoc.docs[0].data();
+          setIsAdmin(userData.admin);
+        }
+      }
+    };
     const fetchOrders = async () => {
       if (auth.currentUser) {
         const user = auth.currentUser;
@@ -30,7 +44,7 @@ export default function Profile() {
         setOrders(ordersList);
       }
     };
-
+    fetchUserData();
     fetchOrders();
   }, [auth]);
   return (
@@ -54,7 +68,7 @@ export default function Profile() {
                 </p>
               </div>
           </form>
-      {auth.currentUser.admin === false && (
+      {!isAdmin && (
         <>
           <h1 className="text-xl text-center font-bold mt-10 mb-6">Order History</h1>
       {orders.length === 0 ? (
