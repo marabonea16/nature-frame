@@ -8,8 +8,8 @@ admin.initializeApp();
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'marabonea16@gmail.com',
-      pass: 'tmup jcjg mlmp zges',
+      user: 'natureframes.store@gmail.com',
+      pass: 'scft dwvf gwvg lxcc',
     },
   });
   
@@ -29,7 +29,7 @@ const transporter = nodemailer.createTransport({
       console.log(`Sending order confirmation to: ${email}`);
 
       const mailOptions = {
-        from: 'marabonea160@gmail.com',
+        from: 'natureframes.store@gmail.com',
         to: email,
         subject: 'Order Confirmation',
         text: `Hello ${name},\n\nThank you for your order!\n\nOrder Details:\n${orderDetails}\n\nTotal Price: ${totalPrice} RON\n\nShipping Address:\n${address}\n${city}, ${postalCode}\n${country}\n\n Phone number:\n${phone}\n\nBest regards,\nNature Frames`,
