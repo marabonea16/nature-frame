@@ -26,14 +26,7 @@ export default function Profile() {
     async function fetchUserData() {
       if (auth.currentUser) {
         const user = auth.currentUser;
-        const userRef = collection(db, 'users');
-        const userDoc = await getDocs(query(userRef, where('uid', '==', user.uid)));
-        if (!userDoc.empty) {
-          const userData = userDoc.docs[0].data();
-          setIsAdmin(userData.admin);
-          console.log("isadmin:" + userData.admin);
-          console.log("auth:" + user.admin);
-        }
+        setIsAdmin(user.admin);
       }
     };
     async function fetchOrders () {
