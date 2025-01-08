@@ -31,7 +31,8 @@ export default function Profile() {
         if (!userDoc.empty) {
           const userData = userDoc.docs[0].data();
           setIsAdmin(userData.admin);
-          console.log(userData.admin);
+          console.log("isadmin:" + userData.admin);
+          console.log("auth:" + user.admin);
         }
       }
     };
