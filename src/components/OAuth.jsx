@@ -19,6 +19,7 @@ export default function OAuth() {
         await setDoc(docRef, {
           name: user.displayName,
           email: user.email,
+          admin: false,
           timestamp: serverTimestamp(), 
         });
       } 
