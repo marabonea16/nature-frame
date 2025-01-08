@@ -7,7 +7,7 @@ import { UserContext } from '../context/UserContext';
 export default function Profile() {
   const auth = getAuth();
   const user = auth.currentUser;
-  const { isAdmin, checkingStatus } = useContext(UserContext);
+  const { isAdmin } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
