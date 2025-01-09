@@ -35,8 +35,8 @@ export default function HeaderAdmin() {
                 </div>
                 <div>
                     <ul key={currentPath} className='flex space-x-4 md:space-x-10'>
-                        <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${pathMatchRoute("/") ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} onClick={() => navigate("/admin-dashboard")}>Admin Dashboard</li>
-                        <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${pathMatchRoute("/shop") ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} onClick={() => navigate("/products")}>Products</li>
+                        <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${pathMatchRoute("/admin-dashboard") ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} onClick={() => navigate("/admin-dashboard")}>Admin Dashboard</li>
+                        <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${pathMatchRoute("/products") ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} onClick={() => navigate("/products")}>Products</li>
                         <li className={`cursor-pointer py-3 px-2 text-sm font-semibold ${(pathMatchRoute("/sign-in") || pathMatchRoute("/profile"))  ? "text-black border-b-green-900 border-b-[3px]" : "text-gray-600 border-b-transparent"}`} 
                             onClick={() => navigate("/profile")}
                             >{pageState}</li>
