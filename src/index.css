@@ -15,10 +15,3 @@ body{
     background: #115916 !important
 }
 
-html::-webkit-scrollbar{
-    display: none;
-}
-
-html{
-    scrollbar-width: none;
-}
