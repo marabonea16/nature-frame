@@ -28,9 +28,10 @@ export default function Profile() {
       if (auth.currentUser) {
         const user = auth.currentUser;
         const ordersRef = collection(db, 'orders');
-        const q = query(ordersRef, where('userEmail', '==', user.email), orderBy('timestamp', 'desc'));
+        const q = query(ordersRef, where('userEmail', '==', user.email));
         const querySnapshot = await getDocs(q);
         const ordersList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        ordersList.sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
         setOrders(ordersList);
       }
     };
