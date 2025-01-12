@@ -44,7 +44,7 @@ export default function Products() {
         {!loading && products.length >0  && (
             <>
             <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
-            2xl:grid-cols-5'>
+            2xl:grid-cols-5 w-full gap-4 mt-6'>
                 {products.map((product)=> (
                     <ProductItem 
                         key={product.id} 
