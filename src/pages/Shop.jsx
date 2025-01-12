@@ -65,7 +65,7 @@ export default function Shop() {
         <>
           <main >
             <ul className='sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
-            2xl:grid-cols-5'>
+            2xl:grid-cols-5 gap-4 mt-6'>
               {products.map((product) => (
                 <ProductItem key={product.id} product={product.data} id={product.id} />
               ))}
