@@ -55,7 +55,7 @@ export default function Shop() {
   }
 
   return (
-    <div className='max-w-6xl mx-auto px-3'>
+    <div className='px-3 py-5'>
       <h1 className='text-3xl text-center font-bold mt-6 mb-6'>
         Shop
       </h1>
