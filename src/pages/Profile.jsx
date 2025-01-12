@@ -1,7 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
 import { UserContext } from '../context/UserContext';
 export default function Profile() {
@@ -28,7 +28,7 @@ export default function Profile() {
       if (auth.currentUser) {
         const user = auth.currentUser;
         const ordersRef = collection(db, 'orders');
-        const q = query(ordersRef, where('userEmail', '==', user.email));
+        const q = query(ordersRef, where('userEmail', '==', user.email), orderBy('timestamp', 'desc'));
         const querySnapshot = await getDocs(q);
         const ordersList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setOrders(ordersList);
