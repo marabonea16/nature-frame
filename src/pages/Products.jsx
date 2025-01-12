@@ -38,7 +38,7 @@ export default function Products() {
     navigate(`/edit-product/${productId}`);
   }
   return (
-    <main className=''>
+    <main className='px-3'>
       <h1 className='text-3xl text-center mt-6 font-bold'>Products</h1>
       <div>
         {!loading && products.length >0  && (
